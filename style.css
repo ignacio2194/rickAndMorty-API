@@ -1,0 +1,23 @@
+body{
+    background-color: #00a5be;
+}
+#character{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    text-align: center;
+    
+}
+.imageCharacter{
+    border: 10px solid rgb(92, 189, 83);
+    border-radius: 10%;
+}
+.logo{
+    display: flex;
+justify-content: center;
+margin-bottom: 15px;
+width: 100%;
+}
+.botonesNavegacion{
+    display: flex;
+    justify-content: space-around;
+}
