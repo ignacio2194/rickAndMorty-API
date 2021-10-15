@@ -9,7 +9,7 @@ body{
 }
 .imageCharacter{
     border: 10px solid rgb(92, 189, 83);
-    border-radius: 10%;
+    border-radius: 50%;
 }
 .logo{
     display: flex;
