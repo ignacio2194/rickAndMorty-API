@@ -5,6 +5,10 @@ const container = document.getElementById('container')
 const buscador = document.getElementById('buscador')
 const Btnbuscador = document.getElementById('btnbuscador')
 
+document.addEventListener('DOMContentLoaded', () => {
+    leerAPI()
+    pintarPersonajes()
+})
 
 
 // contador de la paginacion 
@@ -27,11 +31,12 @@ btnNext.addEventListener('click', () => {
         </div>
         </div>
        `).join('')
-    });
+        });
 
 
 })
-btnBack.addEventListener('click',()=>{
+// boton back del paginador 
+btnBack.addEventListener('click', () => {
     console.log(counter);
     fetch(`https://rickandmortyapi.com/api/character/?page=${--counter}`)
         .then(res => res.json())
@@ -45,27 +50,31 @@ btnBack.addEventListener('click',()=>{
         </div>
         </div>
        `).join('')
-    });
+        });
 })
-document.addEventListener('DOMContentLoaded', () => {
-    leerAPI()
-})
+// BUSCADOR DE PERSONAJES 
+Btnbuscador.addEventListener('click', async () => {
+    const personajes = await leerAPI()
+    let texto = buscador.value
 
+    const Personajes = personajes.results.filter(personaje => personaje.name.toLowerCase().includes(texto))
+})
 
 async function leerAPI() {
     try {
         const res = await fetch('https://rickandmortyapi.com/api/character')
         const data = await res.json()
-        pintarPersonajes(data)
-        return data 
+        return data
     } catch (error) {
         console.log(error);
     }
 
 }
-function pintarPersonajes(data) {
+
+ async function pintarPersonajes() {
+    const  data = await leerAPI()
     data.results.forEach(e => {
-        const { id, name, species,status, image } = e
+        const { id, name, species, status, image } = e
         const div = document.createElement('div')
         div.classList.add('personajes')
         const imagen = document.createElement('img')
@@ -85,27 +94,8 @@ function pintarPersonajes(data) {
         div.appendChild(especie)
         div.appendChild(estado)
         document.querySelector('#character').appendChild(div)
+      
     });
-  
-   
-
-
 }
-const filtrar =  async ()=>{
-  const personajes =  await leerAPI()
-  let texto =  buscador.value
- const Personajes = personajes.results.filter(personaje=> personaje.name.toLowerCase().includes(texto) )
-Personajes.forEach(personaje =>{
-let divBusqueda = document.createElement('div')
-let imagenPersonaje = document.createElement('img')
-let nombre = document.createElement('p')
-imagenPersonaje.src=personaje.image
-nombre.textContent = personaje.name
-divBusqueda.appendChild(nombre)
-divBusqueda.appendChild(imagenPersonaje)
-character.appendChild(divBusqueda)
-})
 
 
-} 
-Btnbuscador.addEventListener('click' ,filtrar)
