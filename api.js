@@ -21,6 +21,7 @@ btnNext.addEventListener('click', () => {
     fetch(`https://rickandmortyapi.com/api/character/?page=${++counter}`)
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             character.innerHTML = data.results.map(item => `
         <div class = 'character'>
         <div><img class="imageCharacter" src="${item.image}">
@@ -32,12 +33,13 @@ btnNext.addEventListener('click', () => {
         </div>
        `).join('')
         });
+   
 
 
 })
 // boton back del paginador 
 btnBack.addEventListener('click', () => {
-    console.log(counter);
+ 
     fetch(`https://rickandmortyapi.com/api/character/?page=${--counter}`)
         .then(res => res.json())
         .then(data => {
@@ -58,6 +60,15 @@ Btnbuscador.addEventListener('click', async () => {
     let texto = buscador.value
 
     const Personajes = personajes.results.filter(personaje => personaje.name.toLowerCase().includes(texto))
+  
+    // si no se escribe nada en el buscador entonces no hagas nada 
+    if(texto ===''){
+        return ;
+    }else{
+      character.classList.contains('personaje')
+      character.remove()
+     actualizarDom(Personajes)
+    }
 })
 
 async function leerAPI() {
@@ -71,8 +82,8 @@ async function leerAPI() {
 
 }
 
- async function pintarPersonajes() {
-    const  data = await leerAPI()
+async function pintarPersonajes() {
+    const data = await leerAPI()
     data.results.forEach(e => {
         const { id, name, species, status, image } = e
         const div = document.createElement('div')
@@ -93,9 +104,37 @@ async function leerAPI() {
         div.appendChild(nombre)
         div.appendChild(especie)
         div.appendChild(estado)
-        document.querySelector('#character').appendChild(div)
-      
+        character.appendChild(div)
+
     });
 }
 
 
+const actualizarDom = (info) => {
+    info.forEach(item => {
+        const { id, name, species, status, image } = item
+        // creo los elementos
+        const div = document.createElement('div')
+        const imagen = document.createElement('img')
+        const nombre = document.createElement('h2')
+        const idChacharacter = document.createElement('p')
+        const especie = document.createElement('p')
+        const estado = document.createElement('p')
+        // agrego clases 
+        div.classList.add('update')
+        imagen.classList.add('updateCharacter')
+        // asigno propiedades 
+        imagen.src = image
+        nombre.textContent = name
+        idChacharacter.textContent = `#${id}`
+        especie.textContent = species
+        estado.textContent = status
+        // seteo como nodo 
+        div.appendChild(imagen)
+        div.appendChild(idChacharacter)
+        div.appendChild(nombre)
+        div.appendChild(especie)
+        div.appendChild(estado)
+        container.appendChild(div)
+    }).join('') 
+}

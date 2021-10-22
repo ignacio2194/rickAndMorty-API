@@ -11,6 +11,14 @@ body{
     border: 10px solid rgb(92, 189, 83);
     border-radius: 50%;
 }
+/* resultado de busqueda*/
+.update{
+    display: flex;
+    justify-content: space-around;
+    text-align: start;
+    margin: 10px;
+
+}
 .logo{
     display: flex;
 justify-content: center;
