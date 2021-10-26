@@ -4,6 +4,9 @@ const character = document.getElementById('character')
 const container = document.getElementById('container')
 const buscador = document.getElementById('buscador')
 const Btnbuscador = document.getElementById('btnbuscador')
+const  Allpersonajes = []
+console.log(Allpersonajes);
+
 
 document.addEventListener('DOMContentLoaded', () => {
     leerAPI()
@@ -17,12 +20,10 @@ let counter = 1;
 btnNext.addEventListener('click', () => {
     counter + 1
     counter = counter
-    console.log(counter);
     fetch(`https://rickandmortyapi.com/api/character/?page=${++counter}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            character.innerHTML = data.results.map(item => `
+            character.innerHTML = data.results.map(item =>   `
         <div class = 'character'>
         <div><img class="imageCharacter" src="${item.image}">
         <p>#${item.id}</p>
@@ -32,18 +33,19 @@ btnNext.addEventListener('click', () => {
         </div>
         </div>
        `).join('')
+       
         });
-   
+
 
 
 })
 // boton back del paginador 
 btnBack.addEventListener('click', () => {
- 
+
     fetch(`https://rickandmortyapi.com/api/character/?page=${--counter}`)
         .then(res => res.json())
         .then(data => {
-            character.innerHTML = data.results.map(item => `
+        character.innerHTML = data.results.map(item => `
         <div class = 'character'>
         <div><img class="imageCharacter" src="${item.image}">
         <p>#${item.id}</p>
@@ -52,22 +54,24 @@ btnBack.addEventListener('click', () => {
         </div>
         </div>
        `).join('')
-        });
+       console.log(data.results.map);
+    });
+    
 })
 // BUSCADOR DE PERSONAJES 
 Btnbuscador.addEventListener('click', async () => {
     const personajes = await leerAPI()
     let texto = buscador.value
-
-    const Personajes = personajes.results.filter(personaje => personaje.name.toLowerCase().includes(texto))
-  
+    character.innerHTML='';
+    const Personajes = Allpersonajes.filter(personaje => personaje.name.toLowerCase().includes(texto))
+    console.log(Personajes);
     // si no se escribe nada en el buscador entonces no hagas nada 
     if(texto ===''){
         return ;
     }else{
-      character.classList.contains('personaje')
-      character.remove()
+    container.innerHTML=''
      actualizarDom(Personajes)
+   
     }
 })
 
@@ -136,5 +140,21 @@ const actualizarDom = (info) => {
         div.appendChild(especie)
         div.appendChild(estado)
         container.appendChild(div)
-    }).join('') 
+    })
 }
+ function  getAllCharacters(){
+let contador ;
+for(contador=1; contador<=671 ; contador++){
+    fetch(`https://rickandmortyapi.com/api/character/${contador}`)
+    .then(res=>res.json())
+    .then(data=>{
+    const infoPersonajes = [data]
+     infoPersonajes.map(personaje=> Allpersonajes.push({image:personaje.image,
+                                                        id:personaje.id ,
+                                                        name:personaje.name,
+                                                        species:personaje.species,
+                                                        estado:personaje.status }))
+    })
+}
+}
+getAllCharacters()

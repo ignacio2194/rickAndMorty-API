@@ -3,8 +3,9 @@ body{
 }
 #character{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(3,1fr);
     text-align: center;
+    gap: 1rem;
     
 }
 .imageCharacter{
@@ -21,9 +22,16 @@ body{
 }
 .logo{
     display: flex;
-justify-content: center;
+justify-content: start;
 margin-bottom: 15px;
-width: 100%;
+padding: none;
+width: 50%;
+}
+.buscador{
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 75px;
 }
 .botonesNavegacion{
     display: flex;
