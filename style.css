@@ -1,6 +1,11 @@
 body{
     background-color: #00a5be;
+    background-image: url(images/heic1909a.jpg);
+
 }
+/* #container{
+    padding: 7.5rem;
+} */
 #character{
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -8,10 +13,28 @@ body{
     gap: 1rem;
     
 }
-.imageCharacter{
-    border: 10px solid rgb(92, 189, 83);
-    border-radius: 50%;
+/* card del personaje */
+.personajes {
+    background-image: url(images/heic1909a.jpg);
+    margin: 3rem;
+   border-radius: 2.5rem;
+   border-left: 3px solid  rgba(136, 158, 181, 0.28);
+   border-right: 3px solid  rgba(136, 158, 181, 0.28) ;
 }
+.imageCharacter{
+   
+    border-radius: 50%;
+    width: 75%;
+    box-shadow: rgb(38, 57, 77) 0px 30px 40px -10px;
+}
+.datosPersonajes {
+background-color: #fff;
+border-radius:1rem ;
+
+}
+.datosPersonajes h2 {
+   color: #e83186;
+    }
 /* resultado de busqueda*/
 .update{
     display: flex;
@@ -36,4 +59,11 @@ width: 50%;
 .botonesNavegacion{
     display: flex;
     justify-content: space-around;
+}
+.footer{
+    background-color: aqua;
+  width: 100%;
+    color: white;
+    text-align: center;
+    margin-bottom:  0 ;
 }

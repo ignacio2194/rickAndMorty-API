@@ -91,7 +91,9 @@ async function pintarPersonajes() {
     data.results.forEach(e => {
         const { id, name, species, status, image } = e
         const div = document.createElement('div')
+        const divDatos = document.createElement('div')
         div.classList.add('personajes')
+        divDatos.classList.add('datosPersonajes')
         const imagen = document.createElement('img')
         imagen.classList.add('imageCharacter')
         const nombre = document.createElement('h2')
@@ -104,10 +106,11 @@ async function pintarPersonajes() {
         especie.textContent = species
         estado.textContent = status
         div.appendChild(imagen)
-        div.appendChild(idChacharacter)
-        div.appendChild(nombre)
-        div.appendChild(especie)
-        div.appendChild(estado)
+        divDatos.appendChild(idChacharacter)
+        divDatos.appendChild(nombre)
+        divDatos.appendChild(especie)
+        divDatos.appendChild(estado)
+        div.appendChild(divDatos)
         character.appendChild(div)
 
     });
