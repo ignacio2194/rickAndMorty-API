@@ -24,8 +24,9 @@ btnNext.addEventListener('click', () => {
         .then(res => res.json())
         .then(data => {
             character.innerHTML = data.results.map(item =>   `
-        <div class = 'character'>
-        <div><img class="imageCharacter" src="${item.image}">
+        <div class = 'character personajes'>
+        <div><img class="imageCharacter" src="${item.image}"></div>
+        <div class ='datosPersonajes'>
         <p>#${item.id}</p>
         <h2>${item.name}</h2>
         <p>${item.species}</p>
@@ -46,11 +47,13 @@ btnBack.addEventListener('click', () => {
         .then(res => res.json())
         .then(data => {
         character.innerHTML = data.results.map(item => `
-        <div class = 'character'>
-        <div><img class="imageCharacter" src="${item.image}">
+        <div class = 'character personajes'>
+        <div><img class="imageCharacter" src="${item.image}"></div>
+        <div class ='datosPersonajes'>
         <p>#${item.id}</p>
         <h2>${item.name}</h2>
         <p>${item.species}</p>
+        <p>${item.status}</p>
         </div>
         </div>
        `).join('')
