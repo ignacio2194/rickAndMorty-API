@@ -4,8 +4,13 @@ const character = document.getElementById('character')
 const container = document.getElementById('container')
 const buscador = document.getElementById('buscador')
 const Btnbuscador = document.getElementById('btnbuscador')
-const  Allpersonajes = []
-console.log(Allpersonajes);
+const datosPersonajes = document.getElementsByClassName('datosPersonajes')
+
+const Allpersonajes = []
+
+
+
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,8 +28,8 @@ btnNext.addEventListener('click', () => {
     fetch(`https://rickandmortyapi.com/api/character/?page=${++counter}`)
         .then(res => res.json())
         .then(data => {
-            character.innerHTML = data.results.map(item =>   `
-        <div class = 'character personajes'>
+            character.innerHTML = data.results.map(item => `
+        <div class = ' personajes'>
         <div><img class="imageCharacter" src="${item.image}"></div>
         <div class ='datosPersonajes'>
         <p>#${item.id}</p>
@@ -34,7 +39,7 @@ btnNext.addEventListener('click', () => {
         </div>
         </div>
        `).join('')
-       
+
         });
 
 
@@ -46,8 +51,8 @@ btnBack.addEventListener('click', () => {
     fetch(`https://rickandmortyapi.com/api/character/?page=${--counter}`)
         .then(res => res.json())
         .then(data => {
-        character.innerHTML = data.results.map(item => `
-        <div class = 'character personajes'>
+            character.innerHTML = data.results.map(item => `
+        <div class = ' personajes'>
         <div><img class="imageCharacter" src="${item.image}"></div>
         <div class ='datosPersonajes'>
         <p>#${item.id}</p>
@@ -57,24 +62,24 @@ btnBack.addEventListener('click', () => {
         </div>
         </div>
        `).join('')
-       console.log(data.results.map);
-    });
-    
+            console.log(data.results.map);
+        });
+
 })
 // BUSCADOR DE PERSONAJES 
 Btnbuscador.addEventListener('click', async () => {
     const personajes = await leerAPI()
     let texto = buscador.value
-    character.innerHTML='';
+    character.innerHTML = '';
     const Personajes = Allpersonajes.filter(personaje => personaje.name.toLowerCase().includes(texto))
     console.log(Personajes);
     // si no se escribe nada en el buscador entonces no hagas nada 
-    if(texto ===''){
-        return ;
-    }else{
-    container.innerHTML=''
-     actualizarDom(Personajes)
-   
+    if (texto === '') {
+        return;
+    } else {
+        container.innerHTML = ''
+        actualizarDom(Personajes)
+
     }
 })
 
@@ -92,10 +97,13 @@ async function leerAPI() {
 async function pintarPersonajes() {
     const data = await leerAPI()
     data.results.forEach(e => {
+       
         const { id, name, species, status, image } = e
         const div = document.createElement('div')
+        div.id= id
         const divDatos = document.createElement('div')
         div.classList.add('personajes')
+      
         divDatos.classList.add('datosPersonajes')
         const imagen = document.createElement('img')
         imagen.classList.add('imageCharacter')
@@ -104,8 +112,11 @@ async function pintarPersonajes() {
         const especie = document.createElement('p')
         const estado = document.createElement('p')
         imagen.src = image
+   
         nombre.textContent = name
         idChacharacter.textContent = `#${id}`
+        datosPersonajes.id = id
+       
         especie.textContent = species
         estado.textContent = status
         div.appendChild(imagen)
@@ -115,8 +126,9 @@ async function pintarPersonajes() {
         divDatos.appendChild(estado)
         div.appendChild(divDatos)
         character.appendChild(div)
-
+        
     });
+    
 }
 
 
@@ -148,19 +160,48 @@ const actualizarDom = (info) => {
         container.appendChild(div)
     })
 }
- function  getAllCharacters(){
-let contador ;
-for(contador=1; contador<=671 ; contador++){
-    fetch(`https://rickandmortyapi.com/api/character/${contador}`)
-    .then(res=>res.json())
-    .then(data=>{
-    const infoPersonajes = [data]
-     infoPersonajes.map(personaje=> Allpersonajes.push({image:personaje.image,
-                                                        id:personaje.id ,
-                                                        name:personaje.name,
-                                                        species:personaje.species,
-                                                        estado:personaje.status }))
-    })
-}
+function getAllCharacters() {
+    let contador;
+    for (contador = 1; contador <= 671; contador++) {
+        fetch(`https://rickandmortyapi.com/api/character/${contador}`)
+            .then(res => res.json())
+            .then(data => {
+                const infoPersonajes = [data]
+                infoPersonajes.map(personaje => Allpersonajes.push({
+                    image: personaje.image,
+                    id: personaje.id,
+                    name: personaje.name,
+                    species: personaje.species,
+                    origin: personaje.origin,
+                    location: personaje.location,
+                    estado: personaje.status
+                }))
+               
+            })
+    }
 }
 getAllCharacters()
+
+  function createCards(pj) {
+    const algo =  document.querySelectorAll('.personajes') 
+  algo.forEach(x=>{
+    x.addEventListener('click',e=>{
+        console.log(x.lastChild);
+        const card ={
+            image:pj.image,
+            name: pj.name,
+            origin:pj.origin,
+            location:pj.location.name,
+            status :pj.status
+           
+        }
+        console.log(card);
+    })
+  })
+    
+  }
+  
+
+
+   
+
