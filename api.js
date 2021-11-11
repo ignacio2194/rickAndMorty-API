@@ -13,8 +13,10 @@ const Allpersonajes = []
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    leerAPI()
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    estado = await leerAPI()
     pintarPersonajes()
 })
 
@@ -97,14 +99,14 @@ async function leerAPI() {
 async function pintarPersonajes() {
     const data = await leerAPI()
     data.results.forEach(e => {
-       
+
         const { id, name, species, status, image } = e
         const div = document.createElement('div')
-        div.id= id
-        const divDatos = document.createElement('div')
         div.classList.add('personajes')
-      
+        div.id = id
+        const divDatos = document.createElement('div')
         divDatos.classList.add('datosPersonajes')
+
         const imagen = document.createElement('img')
         imagen.classList.add('imageCharacter')
         const nombre = document.createElement('h2')
@@ -112,11 +114,11 @@ async function pintarPersonajes() {
         const especie = document.createElement('p')
         const estado = document.createElement('p')
         imagen.src = image
-   
+
         nombre.textContent = name
         idChacharacter.textContent = `#${id}`
         datosPersonajes.id = id
-       
+
         especie.textContent = species
         estado.textContent = status
         div.appendChild(imagen)
@@ -124,19 +126,27 @@ async function pintarPersonajes() {
         divDatos.appendChild(nombre)
         divDatos.appendChild(especie)
         divDatos.appendChild(estado)
+
         div.appendChild(divDatos)
         character.appendChild(div)
-        
+
     });
-    
+    const personajes = document.querySelectorAll('.personajes')
+    createCards(personajes)
+
+
+
 }
 
 
 const actualizarDom = (info) => {
     info.forEach(item => {
-        const { id, name, species, status, image } = item
-        // creo los elementos
-        const div = document.createElement('div')
+
+        const divPersonaje = document.createElement('div')
+        divPersonaje.classList.add('card')
+        const imagenCard = document.createElement('img')
+        imagenCard.src = e.target.src
+
         const imagen = document.createElement('img')
         const nombre = document.createElement('h2')
         const idChacharacter = document.createElement('p')
@@ -158,6 +168,8 @@ const actualizarDom = (info) => {
         div.appendChild(especie)
         div.appendChild(estado)
         container.appendChild(div)
+        divPersonaje.appendChild(imagenCard)
+        document.querySelector('.personajes').appendChild(divPersonaje)
     })
 }
 function getAllCharacters() {
@@ -176,32 +188,46 @@ function getAllCharacters() {
                     location: personaje.location,
                     estado: personaje.status
                 }))
-               
+
             })
     }
 }
 getAllCharacters()
 
-  function createCards(pj) {
-    const algo =  document.querySelectorAll('.personajes') 
-  algo.forEach(x=>{
-    x.addEventListener('click',e=>{
-        console.log(x.lastChild);
-        const card ={
-            image:pj.image,
-            name: pj.name,
-            origin:pj.origin,
-            location:pj.location.name,
-            status :pj.status
-           
-        }
-        console.log(card);
-    })
-  })
-    
-  }
+
+ // creo la info de la card a mostrar con el evento 
+async function dataCards() {
   
+    const dataInfo = await leerAPI()
+    dataInfo.results.forEach(x => {
+        const { id,image, location, origin, episode } = x
+        const divCard = document.createElement('div')
+        // creo la clase y su id  para llamarla con un querySelector  
+        divCard.id = id  
+        divCard.classList.add('divCard')
+        const imgCard = document.createElement('img')
+        const originCard = document.createElement('p')
+        const episodios = document.createElement('p')
+       imgCard.src = image
+        originCard.textContent = ` ${origin.name} , ${location.name} `
+        episodios.textContent = `# ${episode.length}`
+        divCard.appendChild(imgCard)
+        divCard.appendChild(originCard)
+        divCard.appendChild(episodios)
 
+    })
+ 
+}
+dataCards()
 
-   
+ 
+ function createCards(pj) {
+   pj.forEach(personaje => {
+       personaje.addEventListener('click',  e => {
+           
+        const x = Allpersonajes.find(x=>x.id === Number(e.target.parentElement.id))
+        
 
+       })
+   })
+}
